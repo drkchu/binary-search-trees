@@ -63,7 +63,7 @@ class Tree {
         else 
             root.left = this.deleteItemRecHelper(root.left, value);
 
-        return root;
+        return root; // Gotta return the root so that we can use it recursively
     }
 
     removeNodeHelper(root) {
@@ -79,12 +79,57 @@ class Tree {
         }
     }
 
+    // Finds the node with the next largest value, assuming that the given root has a right child
     findSuccessor(root) {
         let rightSubtree = root.right;
         while (rightSubtree.left) {
             rightSubtree = rightSubtree.left;
         }
         return rightSubtree;
+    }
+
+    // Returns the node with the given value, null otherwise
+    find(value) {
+        let currRoot = this.root;
+        while (currRoot !== null) {
+            if (currRoot.data === value)
+                return currRoot;
+            else if (currRoot.data < value)
+                currRoot = currRoot.right;
+            else
+                currRoot = currRoot.left;
+        }
+        return null;
+    }
+
+    // Produce a level-order traversal, using the callback function if defined or just returning an array of values otherwise
+    levelOrderIterative(callback = null) {
+        let queue = [];
+        let result = [];
+        let currRoot = this.root;
+
+        if (currRoot !== null) {
+            queue.push(currRoot);
+    
+            while (queue.length !== 0) {
+                currRoot = queue.shift();
+                result.push(currRoot.data);
+    
+                if (currRoot.left) 
+                    queue.push(currRoot.left);
+                if (currRoot.right) 
+                    queue.push(currRoot.right);
+            }
+        }
+
+        if (callback !== null)
+            result.map(callback);
+        
+        return result;
+    }
+
+    levelOrderRecursive(callback = null) {
+
     }
 }
 
@@ -108,14 +153,5 @@ prettyPrint(tree.root);
 
 console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=')
 
-tree.deleteItem(8);
+tree.levelOrderIterative((value) => console.log(value));
 
-prettyPrint(tree.root);
-
-tree.deleteItem(9);
-
-prettyPrint(tree.root);
-
-tree.deleteItem(23);
-
-prettyPrint(tree.root);
