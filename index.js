@@ -53,7 +53,38 @@ class Tree {
     }
 
     deleteItemRecHelper(root, value) {
+        if (root === null)
+            return null;
 
+        if (root.data === value)
+            return this.removeNodeHelper(root);
+        else if (root.data < value)
+            root.right = this.deleteItemRecHelper(root.right, value);
+        else 
+            root.left = this.deleteItemRecHelper(root.left, value);
+
+        return root;
+    }
+
+    removeNodeHelper(root) {
+        if (root.right && root.left) { // This node has both children, choose successor as the replacement
+            const successor = this.findSuccessor(root);
+            root.data = successor.data;
+            root.right = this.deleteItemRecHelper(root.right, successor.data); // If the node we wanna remove has both children, choose a successor and change the node's values to the successor's value, then remove the successor from the right subtree
+            return root;
+        } else {
+            const toReplaceRoot = root.right || root.left;
+            root = null;
+            return toReplaceRoot;
+        }
+    }
+
+    findSuccessor(root) {
+        let rightSubtree = root.right;
+        while (rightSubtree.left) {
+            rightSubtree = rightSubtree.left;
+        }
+        return rightSubtree;
     }
 }
 
@@ -77,5 +108,14 @@ prettyPrint(tree.root);
 
 console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=')
 
-tree.deleteItem(324);
+tree.deleteItem(8);
+
+prettyPrint(tree.root);
+
+tree.deleteItem(9);
+
+prettyPrint(tree.root);
+
+tree.deleteItem(23);
+
 prettyPrint(tree.root);
