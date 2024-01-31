@@ -223,6 +223,22 @@ class Tree {
         
         return 1 + Math.max(this.height(node.left), this.height(node.right));
     }
+
+    depth(node) {
+        if (node === null)
+            return -1;
+
+        return this.height(this.root) - this.height(node);
+    }
+
+    isBalanced(node) {
+        // TODO
+    }
+
+    // Done by creating a new array, alternatively I couldn't used rotations similar to how an AVL tree operates
+    rebalance(node) {
+        // TODO
+    }
 }
 
 // To make testing a bit easier
@@ -261,3 +277,6 @@ tree.inOrder((value) => console.log(value));
 
 console.log('Post-order traversal: ')
 tree.postOrder((value) => console.log(value));
+
+conso
+console.log(tree.depth(tree.find(8)));
