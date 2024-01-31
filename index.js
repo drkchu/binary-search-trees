@@ -25,7 +25,7 @@ class Tree {
         return root;
     }
 
-    // Insert a value in to BST, doesn't bother balancing yet
+    // Insert a value in to BST
     insert(value) {
         this.insertRecHelper(this.root, value);
         // !!! Check if the tree is unbalanced, if so, balance it 
@@ -49,10 +49,11 @@ class Tree {
 
     deleteItem(value) {
         this.deleteItemRecHelper(this.root, value);
+        // !!! Check if the tree is unbalanced, if so, balance it 
     }
 
     deleteItemRecHelper(root, value) {
-        // !!! Check if the tree is unbalanced, if so, balance it 
+
     }
 }
 
@@ -72,9 +73,9 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 let tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 
-let tree2 = new Tree([1, 2, 3]);
-prettyPrint(tree2.root);
-tree2.insert(5);
-prettyPrint(tree2.root);
-tree2.insert(100);
-prettyPrint(tree2.root);
+prettyPrint(tree.root);
+
+console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=')
+
+tree.deleteItem(324);
+prettyPrint(tree.root);
