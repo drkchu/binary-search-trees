@@ -28,7 +28,9 @@ class Tree {
     // Insert a value in to BST
     insert(value) {
         this.insertRecHelper(this.root, value);
-        // !!! Check if the tree is unbalanced, if so, balance it 
+
+        if (!this.isBalanced(this.root))
+            this.rebalance(this.root);
     }
 
     insertRecHelper(root, value) {
@@ -49,7 +51,8 @@ class Tree {
 
     deleteItem(value) {
         this.deleteItemRecHelper(this.root, value);
-        // !!! Check if the tree is unbalanced, if so, balance it 
+        if (!this.isBalanced(this.root))
+            this.rebalance(this.root);
     }
 
     deleteItemRecHelper(root, value) {
@@ -232,12 +235,19 @@ class Tree {
     }
 
     isBalanced(node) {
-        // TODO
+        if (node === null)
+            return true;
+
+        let leftSubtreeHeight = this.height(node.left);
+        let rightSubtreeHeight = this.height(node.right);
+
+        return Math.abs(leftSubtreeHeight - rightSubtreeHeight) <= 1 && this.isBalanced(node.left) && this.isBalanced(node.right);
     }
 
     // Done by creating a new array, alternatively I couldn't used rotations similar to how an AVL tree operates
     rebalance(node) {
-        // TODO
+        let totalItems = this.inOrder();
+        this.root = this.buildTree(totalItems, 0, totalItems.length - 1)
     }
 }
 
@@ -269,14 +279,4 @@ tree.levelOrderRecursive((value) => console.log(value));
 
 console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=')
 
-console.log('Pre-order traversal: ')
-tree.preOrder((value) => console.log(value));
-
-console.log('In-order traversal: ')
-tree.inOrder((value) => console.log(value));
-
-console.log('Post-order traversal: ')
-tree.postOrder((value) => console.log(value));
-
-conso
-console.log(tree.depth(tree.find(8)));
+prettyPrint(tree.root);
