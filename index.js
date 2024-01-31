@@ -6,7 +6,7 @@ class Node {
     }
 }
 
-class Tree {
+export class Tree {
     constructor(array) {
         const uniqueSortedArray = [...new Set(array)].sort((a, b) => a - b);
         this.root = this.buildTree(uniqueSortedArray, 0, uniqueSortedArray.length - 1);
@@ -29,12 +29,12 @@ class Tree {
     insert(value) {
         this.insertRecHelper(this.root, value);
 
-        if (!this.isBalanced(this.root))
-            this.rebalance(this.root);
+        // if (!this.isBalanced(this.root))
+        //     this.rebalance(this.root);
     }
 
     insertRecHelper(root, value) {
-        if (root === null) {
+        if (root === null || root === undefined) {
             root = new Node(value);
             return root;
         }
@@ -187,7 +187,7 @@ class Tree {
     inOrderRecursiveHelper(root) {
         let result = [];
 
-        if (root === null)
+        if (root === null || root === undefined)
             return [];
 
         result = result.concat(this.inOrderRecursiveHelper(root.left));
@@ -221,7 +221,7 @@ class Tree {
 
     // Returns the height of a given node
     height(node) {
-        if (node === null)
+        if (node === null || node === undefined)
             return -1;
         
         return 1 + Math.max(this.height(node.left), this.height(node.right));
@@ -235,7 +235,7 @@ class Tree {
     }
 
     isBalanced(node) {
-        if (node === null)
+        if (node === null || node === undefined)
             return true;
 
         let leftSubtreeHeight = this.height(node.left);
@@ -249,34 +249,18 @@ class Tree {
         let totalItems = this.inOrder();
         this.root = this.buildTree(totalItems, 0, totalItems.length - 1)
     }
-}
 
-// To make testing a bit easier
-const prettyPrint = (node, prefix = "", isLeft = true) => {
+    // Nice looking print
+    prettyPrint(node = this.root, prefix = "", isLeft = true) {
     if (node === null) {
       return;
     }
     if (node.right !== null) {
-      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+      this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
     }
     console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
     if (node.left !== null) {
-      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+      this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
     }
   };
-
-let tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-
-prettyPrint(tree.root);
-
-console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=')
-
-tree.levelOrderIterative((value) => console.log(value));
-
-console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=')
-
-tree.levelOrderRecursive((value) => console.log(value));
-
-console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=')
-
-prettyPrint(tree.root);
+}
