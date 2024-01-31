@@ -128,8 +128,100 @@ class Tree {
         return result;
     }
 
-    levelOrderRecursive(callback = null) {
+    levelOrderRecursive(callback) {
+        let result = [];
+        for (let level = 0; level <= this.height(tree.root); level++)
+            this.processNodesAtLevel(this.root, level, callback);
+        
+        if (callback === null)
+            return result;
+    }
 
+    processNodesAtLevel(root, level, callback) {
+        if (root === null)
+            return;
+
+        if (level === 0) {
+            if (callback !== null)
+                callback(root.data);
+        }
+
+        this.processNodesAtLevel(root.left, level - 1, callback);
+        this.processNodesAtLevel(root.right, level - 1, callback);
+    }
+
+    preOrder(callback = null) {
+        const result = this.preOrderRecursiveHelper(this.root, callback);
+        
+        if (callback)
+            result.map(callback);
+        else    
+            return result;
+    }
+    
+    preOrderRecursiveHelper(root) {
+        let result = [];
+
+        if (root === null)
+            return [];
+
+        result.push(root.data);
+        result = result.concat(this.preOrderRecursiveHelper(root.left));
+        result = result.concat(this.preOrderRecursiveHelper(root.right));
+        
+        return result;
+    }
+
+    inOrder(callback = null) {
+        const result = this.inOrderRecursiveHelper(this.root, callback);
+        
+        if (callback)
+            result.map(callback);
+        else    
+            return result;
+    }
+
+    inOrderRecursiveHelper(root) {
+        let result = [];
+
+        if (root === null)
+            return [];
+
+        result = result.concat(this.inOrderRecursiveHelper(root.left));
+        result.push(root.data);
+        result = result.concat(this.inOrderRecursiveHelper(root.right));
+        
+        return result;
+    }
+
+    postOrder(callback = null) {
+        const result = this.postOrderRecursiveHelper(this.root, callback);
+        
+        if (callback)
+            result.map(callback);
+        else    
+            return result;
+    }
+    
+    postOrderRecursiveHelper(root) {
+        let result = [];
+
+        if (root === null)
+            return [];
+
+        result = result.concat(this.postOrderRecursiveHelper(root.left));
+        result = result.concat(this.postOrderRecursiveHelper(root.right));
+        result.push(root.data);
+        
+        return result;
+    }
+
+    // Returns the height of a given node
+    height(node) {
+        if (node === null)
+            return -1;
+        
+        return 1 + Math.max(this.height(node.left), this.height(node.right));
     }
 }
 
@@ -155,3 +247,17 @@ console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 tree.levelOrderIterative((value) => console.log(value));
 
+console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=')
+
+tree.levelOrderRecursive((value) => console.log(value));
+
+console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=')
+
+console.log('Pre-order traversal: ')
+tree.preOrder((value) => console.log(value));
+
+console.log('In-order traversal: ')
+tree.inOrder((value) => console.log(value));
+
+console.log('Post-order traversal: ')
+tree.postOrder((value) => console.log(value));
