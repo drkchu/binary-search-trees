@@ -1,2 +1,2 @@
-# binary-search-trees
-An implementation of a balanced binary search tree in JavaScript
+# Balanced Binary Search Trees
+- !!! A short write-up on the asymptotic bounds for functions and methods
